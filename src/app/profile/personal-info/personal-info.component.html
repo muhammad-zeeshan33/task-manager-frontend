@@ -1,0 +1,85 @@
+<!-- Generate Personal info html component -->
+
+
+<div class="container m-3 p-3">
+    <h3>{{isEditing ? ' Edit Personal Info': editingPasswordForm ? 'Create New Password' : 'Personal Info'}}</h3>
+    <div class="row" *ngIf="!editingPasswordForm">
+        <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" [disabled]="!isEditing"
+                        formControlName="name"
+                        [ngClass]="{ 'is-invalid':  profileForm.controls['name'].touched && profileForm.controls['name'].errors }" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                        [disabled]="!isEditing"
+                        [ngClass]="{ 'is-invalid':  profileForm.controls['email'].touched && profileForm.controls['email'].errors }"
+                        formControlName="email" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" *ngIf="editingPasswordForm">
+        <form [formGroup]="changePasswordForm" (ngSubmit)="onPasswordChangeSubmit">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="newPassword" formControlName="newPassword"
+                        aria-describedby="newPasswordHelp"
+                        [ngClass]="{ 'is-invalid':  changePasswordForm.controls['newPassword'].touched && changePasswordForm.controls['newPassword'].errors }" />
+                    <div [ngStyle]="{'margin-bottom': '10px'}"
+                        *ngIf="changePasswordForm.controls['newPassword'].touched && changePasswordForm.get('newPassword')?.hasError('required')"
+                        class="text-danger">
+                        New Password is required
+                    </div>
+                    <div [ngStyle]="{'margin-bottom': '10px'}"
+                        *ngIf="changePasswordForm.controls['newPassword'].touched && changePasswordForm.get('newPassword')?.hasError('minlength')"
+                        class="text-danger">
+                        New Password must be at least 6 characters
+                    </div>
+                    <div [ngStyle]="{'margin-bottom': '10px'}"
+                        *ngIf="changePasswordForm.controls['newPassword'].touched && changePasswordForm.get('newPassword')?.hasError('maxlength')"
+                        class="text-danger">
+                        New Password must be at less than 20 characters
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword"
+                        [ngClass]="{ 'is-invalid':  changePasswordForm.controls['confirmPassword'].touched && changePasswordForm.controls['confirmPassword'].errors }"
+                        aria-describedby="confirmPasswordHelp" />
+                    <div [ngStyle]="{'margin-bottom': '10px'}"
+                        *ngIf="changePasswordForm.controls['confirmPassword'].touched && changePasswordForm.get('confirmPassword')?.hasError('required')"
+                        class="text-danger">
+                        Confirm Password is required
+                    </div>
+                    <div [ngStyle]="{'margin-bottom': '10px'}"
+                        *ngIf="changePasswordForm.controls['confirmPassword'].touched && changePasswordForm.get('confirmPassword')?.hasError('passwordMismatch')"
+                        class="text-danger">
+                        Passwords do not match
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-primary" *ngIf="!isEditing && !editingPasswordForm"
+                    (click)="handleEdit()">Edit</button>
+                <button type="button" class="btn btn-primary" *ngIf="!isEditing && !editingPasswordForm"
+                    (click)="handlePasswordChange()">Change
+                    Password</button>                
+                    <button type="submit" *ngIf="isEditing || editingPasswordForm"
+                        [disabled]="(isEditing && profileForm.invalid) || ( editingPasswordForm && changePasswordForm.invalid )"
+                        class="btn btn-success ml-auto"
+                        (click)="editingPasswordForm ? onPasswordChangeSubmit() : onSubmit() ">Update</button>
+                    <button type="button" class="btn btn-secondary" *ngIf="isEditing || editingPasswordForm" 
+                        (click)="handleCancel()">Cancel</button>                
+            </div>
+        </div>
+    </div>
+</div>

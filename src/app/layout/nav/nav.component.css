@@ -1,0 +1,10 @@
+li {
+  list-style-type: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+ul li a.active {
+  color: #ffffff;
+  font-weight: bold;
+}

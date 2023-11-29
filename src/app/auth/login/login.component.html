@@ -1,0 +1,39 @@
+<!-- generate an angular login form  -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header">Login</div>
+        <div class="card-body">
+          <form  [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                [ngClass]="{ 'is-invalid':  loginForm.controls['email'].touched && loginForm.controls['email'].errors }"  
+                id="email"                
+                formControlName="email"                                
+              />              
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"                
+                class="form-control"
+                formControlName="password"                
+                [ngClass]="{ 'is-invalid':  loginForm.controls['password'].touched && loginForm.controls['password'].errors }"  
+                id="password"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+            <div>
+              Don't have an account?
+              <a routerLink="/register">Register</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
